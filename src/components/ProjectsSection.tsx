@@ -195,7 +195,7 @@ const ProjectsSection = () => {
         </div>
 
         <div className="flex justify-center gap-2 mt-8">
-          {projects.map((_, i) => (
+          {projects?.map((_, i) => (
             <button
               key={i}
               onClick={() => setIndex(i)}
