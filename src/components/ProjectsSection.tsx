@@ -1,6 +1,13 @@
+("use client");
+
 import { useState, useEffect } from "react";
-import { motion, AnimatePresence } from "framer-motion";
-import { ArrowLeft, ArrowRight } from "lucide-react";
+import { motion } from "framer-motion";
+import { Swiper, SwiperSlide } from "swiper/react";
+import { EffectCards, Autoplay, Pagination } from "swiper/modules";
+
+import "swiper/css";
+import "swiper/css/effect-cards";
+import "swiper/css/pagination";
 
 interface Project {
   id: number;
@@ -10,13 +17,12 @@ interface Project {
   year: string;
   technologies: string[];
 }
-
 const projects: Project[] = [
   {
     id: 1,
     title: "PortFlow – Port Dispatch & Logistics Platform",
     description:
-      "End-to-end port logistics platform including driver workflows, dispatch management, chassis handling, customer modules, role-based dashboards and real-time operational monitoring built for enterprise scale usage.",
+      "PortFlow is an advanced logistics platform that manages port dispatch, container handling, driver workflows, chassis assignment, and live trip tracking in one powerful dashboard. Built for real enterprise environments, it ensures clarity, security, and operational stability with structured workflows, role-based control, and clean UI suited for serious logistics operations.",
     category: "Logistics Platform",
     year: "2025",
     technologies: ["React.js", "Material UI", "Node.js", "MongoDB"],
@@ -25,7 +31,7 @@ const projects: Project[] = [
     id: 2,
     title: "EnrollHere – International Education Platform",
     description:
-      "Full-fledged education ecosystem enabling Admins, Recruiters and Students to manage applications, institute onboarding, fee payments, commissions, analytics and secure authentication with a production-grade UI.",
+      "EnrollHere is a professional international education platform designed for students, recruiters, universities, and admins. It supports document handling, onboarding workflows, application tracking, secure Stripe payments, analytics, and role-based dashboards. Built like a real SaaS product, it focuses on clarity, performance, and reliability for global education management.",
     category: "Education Platform",
     year: "2024",
     technologies: ["React.js", "Material UI", "Stripe"],
@@ -34,7 +40,7 @@ const projects: Project[] = [
     id: 3,
     title: "MemeShake – Social Media Platform",
     description:
-      "Modern social networking app with post creation, commenting, real-time chat using Socket.io, Google OAuth login system and visually premium UI experience inspired by Instagram level usability.",
+      "MemeShake is a modern social platform with posts, comments, reactions, and smooth real-time chat using Socket.io. Google OAuth enables secure login, while responsive layouts and ShadCN UI deliver a premium experience. It feels production-ready, showcasing real-time engineering, performance focus, and social product thinking.",
     category: "Social Platform",
     year: "2024",
     technologies: ["Next.js", "Socket.io", "Google OAuth", "ShadCN"],
@@ -43,7 +49,7 @@ const projects: Project[] = [
     id: 4,
     title: "QFL – Trucking & Load Management System",
     description:
-      "Professional trucking management platform including load assignment, listing, status tracking, operational dashboards and mobile responsive workflow screens built for real business usage.",
+      "QFL is a trucking and load management platform that helps logistics companies manage loads, assign drivers, and track trips with clarity. Designed for dispatchers, it presents data in meaningful dashboards instead of clutter. It reflects real transportation workflows, professional usability, and practical business-oriented engineering.",
     category: "Operations System",
     year: "2024",
     technologies: ["React.js"],
@@ -52,92 +58,127 @@ const projects: Project[] = [
     id: 5,
     title: "BGC – Cab Booking Platform",
     description:
-      "Complete cab booking platform including ride selection, pickup to drop flow, confirmation UI, structured forms and mobile-first design focusing on fast user-friendly booking experience.",
+      "BGC is a smooth cab booking platform offering guided ride selection, pickup and drop entry, review flow, and secure confirmation. Built with strong UX focus, validations, and responsive layouts, it delivers a real cab service feel with polished UI, user comfort, and structured booking experience.",
     category: "Booking Platform",
     year: "2024",
     technologies: ["React.js"],
   },
   {
     id: 6,
-    title: "GBM – Medical Equipment System",
+    title: "GBM – Medical Equipment Management System",
     description:
-      "Healthcare inventory and equipment workflow system including maintenance modules, UI refinements, bug fixing, feature enhancements and improved Ant Design experience for daily operations.",
+      "GBM is a healthcare equipment management system helping hospitals track devices, maintenance schedules, and operational readiness. Built with Ant Design, it includes UI enhancements, bug fixes, stability improvements, and workflow clarity. It turns complex healthcare asset management into a simple, reliable, and professional digital system.",
     category: "Healthcare Platform",
     year: "2024",
     technologies: ["React.js", "Ant Design"],
   },
+  {
+    id: 7,
+    title: "School of Coding – Learning & Enrollment Platform",
+    description:
+      "School of Coding is a learning platform designed with engaging layouts, structured sections, and student-focused UX to support digital education. Built with ShadCN for elegant UI and responsiveness, it feels like a real educational product rather than a basic website, offering clarity, usability, and professional presentation.",
+    category: "Education Web App",
+    year: "2024",
+    technologies: ["React.js", "ShadCN"],
+  },
+  {
+    id: 8,
+    title: "Rent & Own – Car Renting & Buying Platform",
+    description:
+      "Rent & Own is an automotive platform allowing users to rent or buy vehicles with structured listings, detailed views, guided workflows, and responsive UI. API integration supports real data while maintaining smooth performance. It feels like a professional marketplace with polished execution and clear product thinking.",
+    category: "Automobile Platform",
+    year: "2024",
+    technologies: ["React.js"],
+  },
+  {
+    id: 9,
+    title: "SamiHomes – Real Estate Website",
+    description:
+      "SamiHomes is a polished real estate platform providing a premium property browsing experience with clean layouts, strong hierarchy, and responsive design. Built using Next.js and Tailwind, it delivers fast performance, clarity, and professional presentation suitable for real business use and trusted digital property showcasing.",
+    category: "Website",
+    year: "2024",
+    technologies: ["Next.js", "Tailwind"],
+  },
+  {
+    id: 10,
+    title: "BuiltBright – Construction Website",
+    description:
+      "BuiltBright is a professional construction website designed to communicate reliability, service strength, and corporate branding. With structured layouts, responsive performance, and trust-focused UI, it feels like a serious business platform. It demonstrates corporate design understanding, disciplined execution, and strong presentation suited for real construction companies.",
+    category: "Website",
+    year: "2024",
+    technologies: ["React.js", "CSS"],
+  },
+  {
+    id: 11,
+    title: "SignedToGod – Web Platform",
+    description:
+      "SignedToGod is a modern web platform focused on clear layout, visual balance, smooth responsiveness, and elegant design. Built using React and Tailwind, it delivers polished UI behavior and stable performance. It showcases structured design thinking, strong aesthetics, and professional execution suitable for real web experiences.",
+    category: "Website",
+    year: "2024",
+    technologies: ["React.js", "Tailwind"],
+  },
+  {
+    id: 12,
+    title: "Smart Global – Business Website",
+    description:
+      "Smart Global is a professional business website built to showcase services, corporate identity, and strong brand presence. Using React and Tailwind, it delivers performance, structured content, smooth responsiveness, and premium presentation. It reflects business-focused UI planning, branding awareness, and production-quality web development standards.",
+    category: "Website",
+    year: "2024",
+    technologies: ["React.js", "Tailwind"],
+  },
+  {
+    id: 13,
+    title: "Sparx Kitchen – Restaurant Website",
+    description:
+      "Sparx Kitchen is a visually appealing restaurant website that highlights brand identity and customer experience through attractive layouts and engaging design. Built with React and Tailwind for smooth responsiveness and performance, it feels like a real restaurant brand platform instead of a template, delivering professional digital dining presence.",
+    category: "Website",
+    year: "2024",
+    technologies: ["React.js", "Tailwind"],
+  },
 ];
 
-const ProjectCard = ({
-  project,
-  active,
-}: {
-  project: Project;
-  active: boolean;
-}) => {
+const ProjectCard = ({ project }: { project: any }) => {
   return (
     <motion.div
-      animate={{
-        scale: active ? 1 : 0.92,
-        opacity: active ? 1 : 0.6,
-        y: active ? 0 : 25,
-      }}
-      transition={{ duration: 0.45, ease: "easeOut" }}
-      className="w-full max-w-sm md:max-w-md lg:max-w-sm rounded-2xl border bg-card shadow-xl p-6 h-auto md:h-[320px] flex flex-col justify-between"
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      transition={{ duration: 0.45 }}
+      className="w-full max-w-3xl rounded-3xl border bg-card shadow-2xl p-4 md:p-10 h-[580px] md:h-[420px] flex flex-col justify-between"
     >
       <div>
-        <span className="text-primary text-xs uppercase tracking-wider">
+        <span className="text-primary text-sm uppercase tracking-wider">
           {project.category} • {project.year}
         </span>
 
-        <h3 className="text-lg md:text-xl font-bold mt-2">{project.title}</h3>
+        <h3 className="text-2xl font-bold mt-3">{project.title}</h3>
 
-        <p className="text-muted-foreground text-sm leading-relaxed mt-2 md:line-clamp-4">
+        <p className="text-muted-foreground text-base leading-relaxed mt-4">
           {project.description}
         </p>
-      </div>
 
-      <div className="flex flex-wrap gap-2 mt-4">
-        {project.technologies.slice(0, 4).map((t) => (
-          <span
-            key={t}
-            className="px-2 py-1 bg-secondary text-xs rounded border border-border"
-          >
-            {t}
-          </span>
-        ))}
+        <div className="flex flex-wrap gap-3 mt-4">
+          {project.technologies.slice(0, 4).map((t: string) => (
+            <span
+              key={t}
+              className="px-3 py-2 bg-secondary text-sm rounded border border-border"
+            >
+              {t}
+            </span>
+          ))}
+        </div>
       </div>
     </motion.div>
   );
 };
 
 const ProjectsSection = () => {
-  const [index, setIndex] = useState(1);
   const [isMobile, setIsMobile] = useState(false);
-
-  const total = projects.length;
-
-  const getSlides = () => {
-    if (isMobile) return [projects[index]];
-    return [
-      projects[(index - 1 + total) % total],
-      projects[index],
-      projects[(index + 1) % total],
-    ];
-  };
 
   useEffect(() => {
     const check = () => setIsMobile(window.innerWidth < 768);
     check();
     window.addEventListener("resize", check);
     return () => window.removeEventListener("resize", check);
-  }, []);
-
-  useEffect(() => {
-    const auto = setInterval(() => {
-      setIndex((p) => (p + 1) % total);
-    }, 3500);
-    return () => clearInterval(auto);
   }, []);
 
   return (
@@ -151,59 +192,41 @@ const ProjectsSection = () => {
           className="text-center mb-16"
         >
           <span className="text-primary tracking-[0.3em] uppercase text-xs md:text-sm">
-            Portfolio
+            Work Showcase
           </span>
 
           <h2 className="text-3xl md:text-6xl font-bold mt-3">
-            Real-World <span className="text-gradient">Projects</span>
+            Real-World{" "}
+            <span className="text-gradient">Platforms & Systems</span>
           </h2>
 
-          <p className="text-muted-foreground max-w-2xl mx-auto mt-4 text-sm md:text-base">
-            Production ready platforms across logistics, education, booking,
-            social and healthcare businesses.
+          <p className="text-muted-foreground max-w-3xl mx-auto mt-4 text-base md:text-lg">
+            Enterprise and production-ready applications built with real-world
+            use cases, scalable architecture, user-centric UI and solid business
+            impact. Not just demos — real systems running in real environments.
           </p>
         </motion.div>
 
-        <div className="relative">
-          <div className="flex justify-center gap-4 md:gap-6 py-8">
-            <AnimatePresence mode="popLayout">
-              {getSlides().map((p, i) => (
-                <ProjectCard
-                  key={p.id}
-                  project={p}
-                  active={i === 1 || isMobile}
-                />
-              ))}
-            </AnimatePresence>
-          </div>
-
-          <button
-            onClick={() =>
-              setIndex((p) => (p - 1 + projects.length) % projects.length)
+        <div className="flex justify-center">
+          <Swiper
+            effect={"cards"}
+            grabCursor={true}
+            modules={[EffectCards, Autoplay, Pagination]}
+            autoplay={{ delay: 2800 }}
+            pagination={{ clickable: true }}
+            style={
+              {
+                "--swiper-theme-color": "hsl(var(--primary))",
+              } as React.CSSProperties
             }
-            className="hidden md:flex absolute left-0 top-1/2 -translate-y-1/2 w-10 h-10 border rounded-full items-center justify-center hover:bg-primary hover:text-white transition"
+            className="max-w-lg md:max-w-2xl lg:max-w-4xl"
           >
-            <ArrowLeft />
-          </button>
-
-          <button
-            onClick={() => setIndex((p) => (p + 1) % projects.length)}
-            className="hidden md:flex absolute right-0 top-1/2 -translate-y-1/2 w-10 h-10 border rounded-full items-center justify-center hover:bg-primary hover:text-white transition"
-          >
-            <ArrowRight />
-          </button>
-        </div>
-
-        <div className="flex justify-center gap-2 mt-8">
-          {projects?.map((_, i) => (
-            <button
-              key={i}
-              onClick={() => setIndex(i)}
-              className={`w-2 h-2 rounded-full transition ${
-                i === index ? "bg-primary w-6" : "bg-gray-500/30"
-              }`}
-            />
-          ))}
+            {projects.map((p) => (
+              <SwiperSlide key={p.id}>
+                <ProjectCard project={p} />
+              </SwiperSlide>
+            ))}
+          </Swiper>
         </div>
       </div>
     </section>
